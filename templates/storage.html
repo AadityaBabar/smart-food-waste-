@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% block title %}Food Storage Tips{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+
+    <h1>Food Storage Information</h1>
+
+    <p>
+        Simple storage practices to keep food usable for longer
+        and reduce unnecessary household food waste.
+    </p>
+
+</div>
+
+
+<div class="tips-grid">
+
+    {% for tip in tips %}
+
+    <div class="tip-card">
+
+        <div class="tip-icon">
+
+            {% if tip["title"] == "Fruits & Vegetables" %}
+                🥕
+            {% elif tip["title"] == "Cooked Food" %}
+                🍲
+            {% elif tip["title"] == "Dairy Products" %}
+                🥛
+            {% elif tip["title"] == "Bakery Items" %}
+                🍞
+            {% else %}
+                🌾
+            {% endif %}
+
+        </div>
+
+
+        <h2>
+            {{ tip["title"] }}
+        </h2>
+
+
+        <p>
+            {{ tip["text"] }}
+        </p>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+
+<!-- STORAGE CHECKLIST -->
+
+<div
+    class="card"
+    style="margin-top: 30px;"
+>
+
+    <h2>
+        ✅ Simple Storage Checklist
+    </h2>
+
+    <div
+        style="
+            display: grid;
+            gap: 14px;
+            margin-top: 20px;
+        "
+    >
+
+        <div>
+            ✓ Check expiry dates regularly
+        </div>
+
+        <div>
+            ✓ Store food in clean containers
+        </div>
+
+        <div>
+            ✓ Keep temperature-sensitive food refrigerated
+        </div>
+
+        <div>
+            ✓ Label leftovers with the storage date
+        </div>
+
+        <div>
+            ✓ Follow the "first in, first out" approach
+        </div>
+
+        <div>
+            ✓ Avoid storing more food than required
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- FOOD MANAGEMENT -->
+
+<div
+    class="reduction-card"
+    style="margin-top: 30px;"
+>
+
+    <div class="big-icon">
+        🌱
+    </div>
+
+    <h2>
+        Store Smart. Waste Less.
+    </h2>
+
+    <p>
+        Proper food storage can help households
+        use food efficiently and avoid unnecessary
+        wastage.
+    </p>
+
+</div>
+
+{% endblock %}

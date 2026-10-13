@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block title %}Add Food Waste{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+
+    <h1>Add Food Waste</h1>
+
+    <p>
+        Record the amount of food wasted by your household.
+    </p>
+
+</div>
+
+
+<div class="form-card">
+
+    <form method="POST"
+          action="{{ url_for('add_waste') }}">
+
+        <!-- FOOD CATEGORY -->
+
+        <label for="category">
+            Food Category
+        </label>
+
+        <select
+            id="category"
+            name="category"
+            required
+        >
+
+            <option value="">
+                Select Food Category
+            </option>
+
+            <option value="Cooked Food">
+                Cooked Food
+            </option>
+
+            <option value="Fruits and Vegetables">
+                Fruits and Vegetables
+            </option>
+
+            <option value="Dairy Products">
+                Dairy Products
+            </option>
+
+            <option value="Bakery Items">
+                Bakery Items
+            </option>
+
+            <option value="Other Food">
+                Other Food
+            </option>
+
+        </select>
+
+
+        <!-- QUANTITY -->
+
+        <label for="quantity">
+            Quantity (kg)
+        </label>
+
+        <input
+            type="number"
+            id="quantity"
+            name="quantity"
+            step="0.01"
+            min="0.01"
+            placeholder="Example: 0.50"
+            required
+        >
+
+
+        <!-- DATE -->
+
+        <label for="date">
+            Date
+        </label>
+
+        <input
+            type="date"
+            id="date"
+            name="date"
+            value="{{ today }}"
+            required
+        >
+
+
+        <!-- SUBMIT -->
+
+        <button
+            type="submit"
+            class="btn"
+        >
+            Save Waste Record
+        </button>
+
+    </form>
+
+</div>
+
+
+<!-- INFORMATION -->
+
+<div class="card" style="margin-top: 25px; max-width: 650px;">
+
+    <h2>💡 Tip</h2>
+
+    <p style="color: #66706a; line-height: 1.7;">
+
+        Enter the approximate weight of the food
+        that was wasted. Regular tracking will help
+        you understand your household's food-waste
+        pattern.
+
+    </p>
+
+</div>
+
+{% endblock %}

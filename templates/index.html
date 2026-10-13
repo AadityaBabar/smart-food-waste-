@@ -1,0 +1,358 @@
+{% extends "base.html" %}
+
+{% block title %}Smart Food Waste | NGO Dashboard{% endblock %}
+
+{% block content %}
+<!-- HERO SECTION -->
+<section class="hero">
+    <div class="hero-content">
+        <p class="small-title">COMMUNITY ENGAGEMENT PROGRAM</p>
+
+        <h1>
+            Smart Food Waste<br>
+            Tracking System
+        </h1>
+
+        <p>
+            Reduce food waste, connect communities and help NGOs
+            manage food donations more efficiently.
+        </p>
+
+        <a href="{{ url_for('add_waste') }}" class="btn">
+            + Add Waste Record
+        </a>
+    </div>
+
+    <div class="hero-icon">🌱</div>
+</section>
+
+
+<!-- WASTE OVERVIEW -->
+<section class="section-title">
+    <h2>Waste Overview</h2>
+    <p>Monitor household food waste and discover opportunities to reduce it.</p>
+</section>
+
+
+<!-- STATISTICS -->
+<section class="stats-grid">
+
+    <div class="stat-card">
+        <div class="stat-icon">⚖️</div>
+        <div>
+            <p>Total Food Waste</p>
+            <h2>{{ total }} kg</h2>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon">🍽️</div>
+        <div>
+            <p>Highest Waste Category</p>
+            <h2>{{ highest_category }}</h2>
+            <span>{{ highest_amount }} kg</span>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon">📝</div>
+        <div>
+            <p>Recent Records</p>
+            <h2>{{ records|length }}</h2>
+            <span>Latest entries</span>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon">♻️</div>
+        <div>
+            <p>Our Mission</p>
+            <h2>Waste Less</h2>
+            <span>Support communities</span>
+        </div>
+    </div>
+
+</section>
+
+
+<!-- DASHBOARD CHART AND RECENT RECORDS -->
+<section class="dashboard-grid">
+
+    <div class="card chart-card">
+        <h2>Waste by Category</h2>
+
+        {% if category_data %}
+            <div style="position: relative; width: 100%; max-width: 500px; margin: 25px auto;">
+                <canvas id="wasteChart"></canvas>
+            </div>
+        {% else %}
+            <div class="empty">
+                <h3>No Waste Data Yet</h3>
+                <p>Add a waste record to see your category breakdown.</p>
+
+                <br>
+
+                <a href="{{ url_for('add_waste') }}" class="btn">
+                    Add Waste
+                </a>
+            </div>
+        {% endif %}
+    </div>
+
+
+    <div class="card">
+        <h2>Recent Records</h2>
+
+        {% if records %}
+            <div class="recent-list">
+
+                {% for record in records %}
+                    <div class="recent-item">
+                        <div>
+                            <strong>{{ record["category"] }}</strong>
+                            <small>{{ record["date"] }}</small>
+                        </div>
+
+                        <span>{{ record["quantity"] }} kg</span>
+                    </div>
+                {% endfor %}
+
+            </div>
+
+            <br>
+
+            <a href="{{ url_for('history') }}" class="btn">
+                View Full History
+            </a>
+
+        {% else %}
+            <div class="empty">
+                <p>No records available yet.</p>
+            </div>
+        {% endif %}
+    </div>
+
+</section>
+
+
+<!-- NGO SERVICES -->
+<section class="services-section" id="services">
+
+    <div class="services-heading">
+        <p class="small-title">OUR COMMUNITY INITIATIVES</p>
+
+        <h2>Services for a Better Tomorrow 🌱</h2>
+
+        <p>
+            Connecting households, donors, NGOs and volunteers
+            to help reduce food waste.
+        </p>
+    </div>
+
+
+    <div class="services-grid">
+
+        <div class="service-card">
+            <div class="service-icon">🍱</div>
+            <h3>Food Donation</h3>
+            <p>Register surplus food for potential redistribution.</p>
+
+            <button type="button" class="btn"
+                    onclick="openService('donation')">
+                Donate Food →
+            </button>
+        </div>
+
+
+        <div class="service-card">
+            <div class="service-icon">🚚</div>
+            <h3>Pickup Requests</h3>
+            <p>Submit a food collection request for NGO review.</p>
+
+            <button type="button" class="btn"
+                    onclick="openService('pickup')">
+                Request Pickup →
+            </button>
+        </div>
+
+
+        <div class="service-card">
+            <div class="service-icon">🙋</div>
+            <h3>Volunteer Network</h3>
+            <p>Register your interest in community initiatives.</p>
+
+            <button type="button" class="btn"
+                    onclick="openService('volunteer')">
+                Join as Volunteer →
+            </button>
+        </div>
+
+
+        <div class="service-card">
+            <div class="service-icon">🏪</div>
+            <h3>Restaurant Partners</h3>
+            <p>Connect restaurants and caterers with food recovery initiatives.</p>
+
+            <button type="button" class="btn"
+                    onclick="openService('partner')">
+                Become a Partner →
+            </button>
+        </div>
+
+
+        <div class="service-card">
+            <div class="service-icon">📦</div>
+            <h3>Food Inventory</h3>
+            <p>Record food items, quantities and availability.</p>
+
+            <button type="button" class="btn"
+                    onclick="openService('inventory')">
+                Manage Inventory →
+            </button>
+        </div>
+
+
+        <div class="service-card">
+            <div class="service-icon">🤝</div>
+            <h3>Community Support</h3>
+            <p>Register a household or community support enquiry.</p>
+
+            <button type="button" class="btn"
+                    onclick="openService('community')">
+                Get Support →
+            </button>
+        </div>
+
+
+        <div class="service-card">
+            <div class="service-icon">📊</div>
+            <h3>Impact Reports</h3>
+            <p>Explore waste collection and redistribution reporting.</p>
+
+            <button type="button" class="btn"
+                    onclick="openService('reports')">
+                View Impact →
+            </button>
+        </div>
+
+
+        <div class="service-card">
+            <div class="service-icon">🎯</div>
+            <h3>Monthly Goals</h3>
+            <p>Set targets for reducing household food waste.</p>
+
+            <button type="button" class="btn"
+                    onclick="openService('goals')">
+                Set Goals →
+            </button>
+        </div>
+
+
+        <div class="service-card">
+            <div class="service-icon">📚</div>
+            <h3>Awareness Centre</h3>
+            <p>Learn about food storage, meal planning and waste prevention.</p>
+
+            <button type="button" class="btn"
+                    onclick="openService('awareness')">
+                Learn More →
+            </button>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- HOW IT WORKS -->
+<section class="process">
+
+    <h2>How It Works</h2>
+
+    <div class="process-grid">
+
+        <div>
+            <b>1</b>
+            <h3>Measure</h3>
+            <p>Record the amount of food wasted.</p>
+        </div>
+
+        <div>
+            <b>2</b>
+            <h3>Identify</h3>
+            <p>Find the categories creating the most waste.</p>
+        </div>
+
+        <div>
+            <b>3</b>
+            <h3>Reduce</h3>
+            <p>Follow practical recommendations to prevent waste.</p>
+        </div>
+
+        <div>
+            <b>4</b>
+            <h3>Support</h3>
+            <p>Explore donation and community support initiatives.</p>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- SERVICE POPUP -->
+<div class="service-modal" id="serviceModal" hidden>
+
+    <div class="service-modal-content">
+
+        <button type="button"
+                class="modal-close"
+                onclick="closeService()"
+                aria-label="Close popup">
+            &times;
+        </button>
+
+        <h2 id="modalTitle">Community Service</h2>
+
+        <p id="modalDescription"></p>
+
+        <form id="serviceForm">
+            <div id="serviceFields"></div>
+
+            <button type="submit" class="btn">
+                Submit Details
+            </button>
+        </form>
+
+        <p id="formMessage" aria-live="polite"></p>
+
+    </div>
+
+</div>
+
+
+<!-- CHART DATA -->
+{% if category_data %}
+<script>
+    const categories = [
+        {% for item in category_data %}
+            {{ item['category'] | tojson }},
+        {% endfor %}
+    ];
+
+    const amounts = [
+        {% for item in category_data %}
+            {{ item['total'] }},
+        {% endfor %}
+    ];
+
+    document.addEventListener("DOMContentLoaded", function () {
+        if (typeof createWasteChart === "function") {
+            createWasteChart(categories, amounts);
+        } else {
+            console.error("Chart function not found!");
+        }
+    });
+</script>
+{% endif %}
+{% endblock %}

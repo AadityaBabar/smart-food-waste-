@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+
+{% block title %}Waste Reduction Suggestions{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+
+    <h1>Waste Reduction Suggestions</h1>
+
+    <p>
+        Get practical suggestions based on your household food waste.
+    </p>
+
+</div>
+
+
+{% if categories %}
+
+    {% for category in categories %}
+
+    <div class="suggestion-card">
+
+        <div class="suggestion-header">
+
+            <div>
+
+                <h2>
+                    {{ category["category"] }}
+                </h2>
+
+                <span>
+                    {{ category["total"] }} kg wasted
+                </span>
+
+            </div>
+
+
+            {% if loop.first %}
+
+            <div class="badge">
+                Highest Waste
+            </div>
+
+            {% endif %}
+
+        </div>
+
+
+        <ul>
+
+            {% for tip in suggestions[category["category"]] %}
+
+            <li>
+                {{ tip }}
+            </li>
+
+            {% endfor %}
+
+        </ul>
+
+    </div>
+
+    {% endfor %}
+
+
+{% else %}
+
+    <div class="card empty">
+
+        <div style="font-size: 55px;">
+            💡
+        </div>
+
+        <h2>
+            No Suggestions Yet
+        </h2>
+
+        <p>
+            Add some food waste records first.
+            We will identify your major waste
+            category and provide suitable suggestions.
+        </p>
+
+        <br>
+
+        <a
+            href="{{ url_for('add_waste') }}"
+            class="btn"
+        >
+            + Add Waste Record
+        </a>
+
+    </div>
+
+{% endif %}
+
+
+<!-- GENERAL TIPS -->
+
+<div
+    class="card"
+    style="margin-top: 25px;"
+>
+
+    <h2>
+        🌱 General Waste Reduction Tips
+    </h2>
+
+    <ul
+        style="
+            margin-top: 15px;
+            padding-left: 25px;
+            line-height: 2;
+            color: #66706a;
+        "
+    >
+
+        <li>
+            Plan meals before purchasing groceries.
+        </li>
+
+        <li>
+            Buy only the quantity your household needs.
+        </li>
+
+        <li>
+            Check food expiry dates regularly.
+        </li>
+
+        <li>
+            Store food according to its requirements.
+        </li>
+
+        <li>
+            Use suitable leftovers instead of throwing them away.
+        </li>
+
+        <li>
+            Maintain a weekly food inventory.
+        </li>
+
+    </ul>
+
+</div>
+
+{% endblock %}

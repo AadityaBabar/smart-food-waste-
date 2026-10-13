@@ -1,0 +1,195 @@
+{% extends "base.html" %}
+
+{% block title %}Waste Comparison{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+
+    <h1>Waste Comparison</h1>
+
+    <p>
+        Compare your latest food waste with your previous record.
+    </p>
+
+</div>
+
+
+<!-- COMPARISON -->
+
+<div class="comparison-grid">
+
+    <!-- PREVIOUS -->
+
+    <div class="comparison-card">
+
+        <span>
+            Previous Waste
+        </span>
+
+        <h2>
+            {{ previous_waste }} kg
+        </h2>
+
+        <small>
+            {{ previous_date }}
+        </small>
+
+    </div>
+
+
+    <!-- ARROW -->
+
+    <div class="comparison-arrow">
+        →
+    </div>
+
+
+    <!-- CURRENT -->
+
+    <div class="comparison-card">
+
+        <span>
+            Current Waste
+        </span>
+
+        <h2>
+            {{ current_waste }} kg
+        </h2>
+
+        <small>
+            {{ current_date }}
+        </small>
+
+    </div>
+
+</div>
+
+
+<!-- RESULT -->
+
+<div class="reduction-card">
+
+    {% if previous_waste == 0 %}
+
+        <div class="big-icon">
+            📊
+        </div>
+
+        <h2>
+            Not Enough Data
+        </h2>
+
+        <p>
+            Add waste records on different dates
+            to compare your progress.
+        </p>
+
+        <br>
+
+        <a
+            href="{{ url_for('add_waste') }}"
+            class="btn"
+        >
+            + Add Waste Record
+        </a>
+
+
+    {% elif reduction_percent > 0 %}
+
+        <div class="big-icon">
+            🎉
+        </div>
+
+        <h2>
+            Great Progress!
+        </h2>
+
+        <p>
+            Your food waste has decreased by
+            <strong>
+                {{ reduction_kg }} kg
+            </strong>.
+        </p>
+
+        <div class="percentage">
+            {{ reduction_percent }}%
+        </div>
+
+        <p>
+            Waste Reduction
+        </p>
+
+
+    {% elif reduction_percent == 0 %}
+
+        <div class="big-icon">
+            📊
+        </div>
+
+        <h2>
+            No Reduction Yet
+        </h2>
+
+        <p>
+            Your current waste is the same as
+            your previous waste.
+        </p>
+
+
+    {% else %}
+
+        <div class="big-icon">
+            💡
+        </div>
+
+        <h2>
+            Let's Improve
+        </h2>
+
+        <p>
+            Your current waste is higher than
+            your previous record.
+        </p>
+
+        <div class="percentage">
+            {{ reduction_percent|abs }}%
+        </div>
+
+        <p>
+            Increase in Waste
+        </p>
+
+    {% endif %}
+
+</div>
+
+
+<!-- EXPLANATION -->
+
+<div
+    class="card"
+    style="margin-top: 25px;"
+>
+
+    <h2>
+        How is Reduction Calculated?
+    </h2>
+
+    <p style="color: #66706a; line-height: 1.8;">
+
+        <strong>Waste Reduction (kg)</strong>
+        =
+        Previous Waste − Current Waste
+
+        <br><br>
+
+        <strong>Reduction Percentage</strong>
+        =
+        (Waste Reduction ÷ Previous Waste) × 100
+
+    </p>
+
+</div>
+
+{% endblock %}
